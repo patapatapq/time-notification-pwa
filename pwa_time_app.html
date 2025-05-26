@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="30分おきに通知音でお知らせする時刻通知アプリ">
+    
+    <title>時刻通知アプリ</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaZguWIu+mAmuefpeOCouODl+ODqiIsCiAgInNob3J0X25hbWUiOiAi5pmC5Yi76YCa55+lIiwKICAiZGVzY3JpcHRpb24iOiAiMzDliIbjgYrjgY3jgavpgJrnn6Xpn7PjgafjgYrnn6XjgonjgZnjgovaZ2C5Yi76YCa55+l44Ki44OX44OqIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJjYXRlZ29yaWVzIjogWyJ1dGlsaXRpZXMiLCAicHJvZHVjdGl2aXR5Il0sCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1qUXdJaUJvWldsbmFIUTlJakkwTUNJZ2RtbGxkMEp2ZUQwaU1DQXdJREkwTUNBeU5EQWlJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SStQR05wY21Oc1pTQmplRDFpTVRJd0lpQmplVDBpTVRJd0lpQnlQU0l4TURBZ0lpQm1hV3hzUFNJMk5qZGxaV0VpTHo0OGNHRjBhQ0JrUFNKTk5UQWdPVEJoTkRBZ05EQWdNQ0F4SURBZ05qQWdNQ0F3SURNZ05qQWdNQ0F4SURBdE5qQXROREJCTkRBZ05EQWdNQ0F4SURBZ055QXdJRElnTnlBd0lERWdNQzQwT1RjdU9TSXZQangzWlhSbGVIUWdlRDBpTVRJd0lpQjVQU0l4TkRVaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlJR1pwYkd3OUluZG9hWFJsSWo0eE16b3dNRHd2ZEdWNGRENDhkR1Y0ZENCNFBTSXhNakFpSUhrOUlqRTJOU0lpSUhSbGVIUXRZVzVqYUc5eVBTSnRhV1JrYkdVaUlHWnBiR3c5SW1kT1lYQXZaU0krUVVOVVNWWkZQQzkwWlhoMFBqeDBaWGgwSUhnOUlqRXlNQ0lpSUhrOUlqRTROU0lpSUhSbGVIUXRZVzVqYUc5eVBTSnRhV1JrYkdVaUlHWnBiR3c5SW1kT1lYQXZaU0krUXpvek1Db3dNRHd2ZEdWNGRENDhMMk4xY2tjK1BDOXPKZ21jK0lBPT0iLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU5USTRJaUJvWldsbmFIUTlJalV5T0NJZ2RtbGxkMEp2ZUQwaU1DQXdJRFV5T0NBMk1qZ2lJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SStQR05wY21Oc1pTQmplRDBpTWpZMElpQmplVDBpTXpFMElpQnlQU0l5TlRZaUlHWnBiR3c5SWpZMk4yVmxZU0l2UGp4d1lYUm9JR1E5SWswMU1pQXhPVGhoT0RnZ09EZ2dNQ0F4SURFZ01URXpJREFnTUNBM0lERXhNaUF3SURFZ01DMDBPUzA0T0VFNE9DQTRPQ0F3SURFZ01DQXhOUzR3TkNBd0lETWdNVFV1TURRdE1DQXhJREF1TnpRME5qZ3VJVEF6TmpkbExWa2lMejQ4WXpBelppQjRQU0kxWEhGZXJpYUpzZWFjZ4V3FdWfcUhacUhnakYzSXBoWU9sWWhKODBvZ3VndUUzWU1CQ0VjT3p6QnRnUFVKT3I4WjFSTGJ3bm41MVRRWE1XdFpzSGtzK0p2U3ZiY0hOV3UzK3FvUnI3STEzdUFnblpOeEJ5TGNwbnllK1d1VGpCQ3Q3RjNjdDE2V2k5VThHdEdhYzlEWHdHWFlibXpkOGNQV3Y3TkNaQjF5Ykw2dnorTWtVUVhqakJRaWZpYy5jdWlwcUJQN2xVenl4aFJrNnhzSWl1c2VheWhPakY3ZUJnb2FBSkVyRGhpWVcwUk13WGpYTnNILUJoeFVYNzJ6M08xR2R6TmJwYXBCMnBydHNSWGZxWXNuOGdWL3pVaERBaWZ5YUdpZGdPWk1MdEJCRUc0Q1NvYWxGNjRzdlZiQTRZbEY2UWk2M3Y1M2JQZy5TYzBTaTBKenJZdmRhUnRoTndQV3U4bEhWN2V4V3NhK0FJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlR5ZUFJdGFNWVhLUm84RlQ9PSIsICAgICAKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgInNjcmVlbnNob3RzIjogW10KfQ==">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iOTYiIGN5PSI5NiIgcj0iOTYiIGZpbGw9IiM2NjdlZWEiLz48cGF0aCBkPSJNNTAgOTBhNDAgNDAgMCAxIDAgNjAgMCAwIDMgNjAgMCAxIDAtNjAtNDBBNDAgNDAgMCAxIDAgNyAwIDIgNyAwIDEgMC40OTcuOSIvPjx3ZXRleHQgeD0iOTYiIHk9IjE0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPjEzOjAwPC90ZXh0Pjx0ZXh0IHg9Ijk2IiB5PSIxNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9ImduYXAvZSI+QUNUSVZFPC90ZXh0Pjx0ZXh0IHg9Ijk2IiB5PSIxODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9ImduYXAvZSI+QzozMDowMDwvdGV4dD48L2N1cmM+PC9zdmc+IA==">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .clock {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .status {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .running {
+            color: #4CAF50;
+        }
+        
+        .stopped {
+            color: #f44336;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .start-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .start-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .stop-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .stop-btn:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+        }
+        
+        .test-btn {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .test-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .install-btn {
+            background: #FF9800;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .install-btn:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .next-notification {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .log {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        .pwa-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #667eea;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .clock {
+                font-size: 2.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clock" id="clock">00:00:00</div>
+        
+        <div class="status" id="status">
+            <span class="stopped">停止中</span>
+        </div>
+        
+        <div class="controls">
+            <button class="start-btn" id="startBtn" onclick="startNotification()">開始</button>
+            <button class="stop-btn" id="stopBtn" onclick="stopNotification()" disabled>終了</button>
+            <button class="test-btn" id="testBtn" onclick="testSound()">音声テスト</button>
+            <button class="install-btn" id="installBtn" onclick="installPWA()" style="display: none;">アプリをインストール</button>
+        </div>
+        
+        <div class="next-notification" id="nextNotification">
+            次の通知: --:--
+        </div>
+        
+        <div class="log" id="log">
+            <div class="log-entry">ログが表示されます</div>
+        </div>
+        
+        <div class="pwa-info">
+            <div>📱 PWA対応: このアプリはスマートフォンやデスクトップにインストール可能</div>
+            <div>🔔 オフライン動作: インターネット接続なしでも利用可能</div>
+        </div>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let intervalId = null;
+        let audioContext = null;
+        let deferredPrompt = null;
+        
+        // PWA インストール関連
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').style.display = 'inline-block';
+            addLog('アプリのインストールが可能です');
+        });
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        addLog('アプリがインストールされました');
+                    } else {
+                        addLog('インストールがキャンセルされました');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installBtn').style.display = 'none';
+                });
+            }
+        }
+        
+        // Service Worker 登録
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swScript = `
+                    const CACHE_NAME = 'time-notification-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/time_notification_app.html'
+                    ];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    return response || fetch(event.request);
+                                }
+                            )
+                        );
+                    });
+
+                    self.addEventListener('message', (event) => {
+                        if (event.data && event.data.type === 'SKIP_WAITING') {
+                            self.skipWaiting();
+                        }
+                    });
+                `;
+                
+                const blob = new Blob([swScript], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then((registration) => {
+                        console.log('Service Worker registered:', registration);
+                        addLog('Service Worker が登録されました');
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                        addLog('Service Worker の登録に失敗しました');
+                    });
+            });
+        }
+        
+        // 時計の更新
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP', { hour12: false });
+            document.getElementById('clock').textContent = timeString;
+        }
+        
+        // 次の通知時刻を計算
+        function getNextNotificationTime() {
+            const now = new Date();
+            const currentMinutes = now.getMinutes();
+            const currentHour = now.getHours();
+            
+            let nextHour = currentHour;
+            let nextMinutes;
+            
+            if (currentMinutes < 30) {
+                nextMinutes = 30;
+            } else {
+                nextMinutes = 0;
+                nextHour = (currentHour + 1) % 24;
+            }
+            
+            const nextTime = new Date();
+            nextTime.setHours(nextHour, nextMinutes, 0, 0);
+            
+            return nextTime;
+        }
+        
+        // 次の通知時刻を表示
+        function updateNextNotification() {
+            if (!isRunning) {
+                document.getElementById('nextNotification').textContent = '次の通知: --:--';
+                return;
+            }
+            
+            const nextTime = getNextNotificationTime();
+            const timeString = nextTime.toLocaleTimeString('ja-JP', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('nextNotification').textContent = `次の通知: ${timeString}`;
+        }
+        
+        // 通知音を作成・再生
+        function playNotificationSound() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // 短いビープ音を生成
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+        
+        // ログに記録
+        function addLog(message) {
+            const logDiv = document.getElementById('log');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = `[${timeString}] ${message}`;
+            
+            logDiv.insertBefore(logEntry, logDiv.firstChild);
+            
+            // ログの数を制限
+            while (logDiv.children.length > 10) {
+                logDiv.removeChild(logDiv.lastChild);
+            }
+        }
+        
+        // 通知チェック
+        function checkNotification() {
+            if (!isRunning) return;
+            
+            const now = new Date();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // 00分または30分の0秒に通知
+            if ((minutes === 0 || minutes === 30) && seconds === 0) {
+                playNotificationSound();
+                const timeString = now.toLocaleTimeString('ja-JP');
+                addLog(`通知音を再生しました (${timeString})`);
+                
+                // ブラウザ通知も表示（許可されている場合）
+                if (Notification.permission === 'granted') {
+                    new Notification('時刻通知', {
+                        body: `現在の時刻: ${timeString}`,
+                        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMiIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjMyIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMTgiPjEyOjAwPC90ZXh0PjwvY3VyYz48L3N2Zz4='
+                    });
+                }
+            }
+        }
+        
+        // 通知許可を要求
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        addLog('ブラウザ通知が許可されました');
+                    } else {
+                        addLog('ブラウザ通知が拒否されました');
+                    }
+                });
+            }
+        }
+        
+        // 開始
+        function startNotification() {
+            if (isRunning) return;
+            
+            // 通知許可を要求
+            requestNotificationPermission();
+            
+            isRunning = true;
+            document.getElementById('status').innerHTML = '<span class="running">動作中</span>';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            
+            // 1秒ごとにチェック
+            intervalId = setInterval(() => {
+                updateClock();
+                updateNextNotification();
+                checkNotification();
+            }, 1000);
+            
+            // 初回実行
+            updateClock();
+            updateNextNotification();
+            
+            addLog('通知スクリプトを開始しました');
+        }
+        
+        // 終了
+        function stopNotification() {
+            if (!isRunning) return;
+            
+            isRunning = false;
+            document.getElementById('status').innerHTML = '<span class="stopped">停止中</span>';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+            
+            updateNextNotification();
+            addLog('通知スクリプトを終了しました');
+        }
+        
+        // 音声テスト
+        function testSound() {
+            playNotificationSound();
+            addLog('テスト音を再生しました');
+        }
+        
+        // 初期化
+        updateClock();
+        
+        // 1秒ごとに時計を更新（停止中でも）
+        setInterval(updateClock, 1000);
+        
+        // PWA 関連のログ
+        window.addEventListener('load', () => {
+            addLog('PWA対応アプリが読み込まれました');
+        });
+    </script>
+</body>
+</html>
