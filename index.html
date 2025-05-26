@@ -18,15 +18,16 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 10px 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        .container {
+        .top-section {
             background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 15px;
@@ -36,14 +37,46 @@
             max-width: 400px;
             backdrop-filter: blur(10px);
             margin-top: 10px;
+            margin-bottom: 10px;
         }
         
-        .clock-status-row {
+        .bottom-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 300px;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            gap: 15px;
+            gap: 10px;
+        }
+        
+        .left-controls {
+            display: flex;
+            gap: 6px;
+            flex: 0 0 auto;
+        }
+        
+        .left-controls button {
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        
+        .clock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+            margin-left: 10px;
         }
         
         .clock {
@@ -56,6 +89,7 @@
         .status {
             font-size: 0.9rem;
             color: #666;
+            white-space: nowrap;
         }
         
         .running {
@@ -64,18 +98,6 @@
         
         .stopped {
             color: #f44336;
-        }
-        
-        .main-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        
-        .main-controls button {
-            padding: 8px 20px;
-            font-size: 0.9rem;
         }
         
         .secondary-controls {
@@ -175,32 +197,38 @@
         
         @media (max-width: 480px) {
             body {
-                padding: 5px 0;
+                padding: 5px;
             }
             
-            .container {
+            .top-section, .bottom-section {
                 padding: 15px;
                 margin: 5px;
-                margin-top: 5px;
             }
             
-            .clock-status-row {
+            .main-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .left-controls {
                 justify-content: center;
-                gap: 12px;
+                order: 2;
+            }
+            
+            .left-controls button {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .clock-status {
+                order: 1;
+                flex-direction: row;
+                gap: 8px;
+                margin-left: 0;
             }
             
             .clock {
                 font-size: 2rem;
-            }
-            
-            .main-controls {
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-            
-            .main-controls button {
-                padding: 10px 16px;
-                font-size: 0.9rem;
             }
             
             .secondary-controls {
@@ -222,19 +250,22 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="clock-status-row">
-            <div class="clock" id="clock">00:00:00</div>
-            <div class="status" id="status">
-                <span class="stopped">停止中</span>
+    <div class="top-section">
+        <div class="main-row">
+            <div class="left-controls">
+                <button class="start-btn" id="startBtn" onclick="startNotification()">開始</button>
+                <button class="stop-btn" id="stopBtn" onclick="stopNotification()" disabled>終了</button>
+            </div>
+            <div class="clock-status">
+                <div class="clock" id="clock">00:00:00</div>
+                <div class="status" id="status">
+                    <span class="stopped">停止中</span>
+                </div>
             </div>
         </div>
-        
-        <div class="main-controls">
-            <button class="start-btn" id="startBtn" onclick="startNotification()">開始</button>
-            <button class="stop-btn" id="stopBtn" onclick="stopNotification()" disabled>終了</button>
-        </div>
-        
+    </div>
+
+    <div class="bottom-section">
         <div class="secondary-controls">
             <button class="test-btn" id="testBtn" onclick="testSound()">音声テスト</button>
             <button class="install-btn" id="installBtn" onclick="installPWA()" style="display: none;">アプリをインストール</button>
